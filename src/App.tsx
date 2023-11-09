@@ -171,6 +171,7 @@ export const App: React.FC = () => {
           challengeEndSound.play();
         }
         setChallengeTimer(0);
+        setExpression(generateExpression(operationsList, level));
         message.current?.classList.remove('hidden');
       } else {
         if (volumeState) {
