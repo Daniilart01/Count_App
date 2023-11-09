@@ -170,7 +170,7 @@ function generateDivideOpearnds(level: number) {
       return [firstOperand * secondOperand, secondOperand];
 
     case 4:
-      firstOperand = getNumberTenFifty();
+      firstOperand = getNumberTenHundred();
       secondOperand = getNumberToTwenty();
 
       return [firstOperand * secondOperand, secondOperand];
