@@ -6,10 +6,10 @@ import { generateExpression } from './services/generateExpression';
 import { getTimerString } from './services/getTimerString';
 import { useLocalStorage } from './services/useLocalStorage';
 
-const successSound = new Audio('src/success.mp3');
-const errorSound = new Audio('src/error.mp3');
-const challengeEndSound = new Audio('src/challenge_end.mp3');
-const challengeStartSound = new Audio('src/challenge_start.mp3');
+const successSound = new Audio('success.mp3');
+const errorSound = new Audio('error.mp3');
+const challengeEndSound = new Audio('challenge_end.mp3');
+const challengeStartSound = new Audio('challenge_start.mp3');
 challengeEndSound.volume = 0.2;
 
 export const App: React.FC = () => {
@@ -96,6 +96,8 @@ export const App: React.FC = () => {
   };
 
   const operationButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    input.current?.focus();
+
     if (!(event.currentTarget.name in operationsList)) {
       return;
     }
@@ -114,6 +116,16 @@ export const App: React.FC = () => {
       return;
     }
 
+    if (!challengeTimer) {
+      setExpression(generateExpression(
+        {
+          ...operationsList,
+          [key]: !operationsList[key],
+        },
+        level,
+      ));
+    }
+
     setOperationsList({
       ...operationsList,
       [key]: !operationsList[key],
@@ -121,17 +133,24 @@ export const App: React.FC = () => {
   };
 
   const levelsButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    input.current?.focus();
+
     try {
       const level: Levels = +event.currentTarget.name as Levels;
+      
+      if (!challengeTimer) {
+        setExpression(generateExpression(operationsList, level));
+      }
+
       setLevel(level);
     } catch (e) {
       console.error('Wrong level');
     }
   };
 
-
   useEffect(() => {
     document.addEventListener('keydown', onKeyPressed);
+
     return () => document.removeEventListener('keydown', onKeyPressed);
   }, [onKeyPressed]);
 
@@ -142,9 +161,6 @@ export const App: React.FC = () => {
     return function timerManage(
       timer: number,
       volumeState: boolean,
-      operations: OperationsActive,
-      hardnessLevel: Levels,
-      isChallenge: number,
     ) {
       message.current?.classList.add('hidden');
 
@@ -161,12 +177,9 @@ export const App: React.FC = () => {
           challengeStartSound.play();
         }
         setChellangeScore({ correctScore: 0, incorrectScore: 0 })
-        if (isChallenge) {
-          setExpression(generateExpression());
-        } else {
-          setExpression(generateExpression(operations, hardnessLevel));
-        }
+        setExpression(generateExpression());
         setChallengeTimer(sec);
+
         input.current?.focus();
 
         timerId = window.setInterval(() => {
@@ -207,9 +220,6 @@ export const App: React.FC = () => {
             onClick={() => challengeButtonPressed(
               challengeTimer,
               volumeApplied,
-              operationsList,
-              level,
-              challengeTimer,
             )}
           >
             {challengeTimer === 0 ? 'Start Challenge' : 'Stop Challenge'}
@@ -273,14 +283,14 @@ export const App: React.FC = () => {
           </button>
           <button
             name='3'
-            className={cn('main__operations-button', 'button', { 'is-info': level === 3 && challengeTimer === 0 })}
+            className={cn('main__operations-button', 'button', { 'is-info': level === 3 || challengeTimer !== 0 })}
             onClick={levelsButtonClick}
           >
             3
           </button>
           <button
             name='4'
-            className={cn('main__operations-button', 'button', { 'is-info': level === 4 || challengeTimer !== 0 })}
+            className={cn('main__operations-button', 'button', { 'is-info': level === 4 && challengeTimer === 0 })}
             onClick={levelsButtonClick}
           >
             4
