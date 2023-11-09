@@ -6,10 +6,10 @@ import { generateExpression } from './services/generateExpression';
 import { getTimerString } from './services/getTimerString';
 import { useLocalStorage } from './services/useLocalStorage';
 
-const successSound = new Audio('src/success.mp3');
-const errorSound = new Audio('src/error.mp3');
-const challengeEndSound = new Audio('src/challenge_end.mp3');
-const challengeStartSound = new Audio('src/challenge_start.mp3');
+const successSound = new Audio('success.mp3');
+const errorSound = new Audio('error.mp3');
+const challengeEndSound = new Audio('challenge_end.mp3');
+const challengeStartSound = new Audio('challenge_start.mp3');
 challengeEndSound.volume = 0.2;
 
 export const App: React.FC = () => {
@@ -30,7 +30,7 @@ export const App: React.FC = () => {
   });
   const [expression, setExpression] = useState<Expression>(generateExpression(operationsList, level));
   const [animation, setAnimation] = useState(false);
-
+  
   const input = useRef<HTMLInputElement>(null);
   const button = useRef<HTMLButtonElement>(null);
   const message = useRef<HTMLDivElement>(null);
@@ -128,7 +128,6 @@ export const App: React.FC = () => {
       console.error('Wrong level');
     }
   };
-
 
   useEffect(() => {
     document.addEventListener('keydown', onKeyPressed);
