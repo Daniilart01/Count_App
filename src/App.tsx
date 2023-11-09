@@ -357,6 +357,18 @@ export const App: React.FC = () => {
           </button>
         </div>
       </div>
+
+      <div className='main__info'>
+        <p className="main__info-paragraph">
+          Натисни Enter щоб підтвердити відповідь
+        </p>
+        <p className="main__info-paragraph">
+          Натисни 'Start Challange' щоб розпочати челлендж (працює на 3 рівні складності та із усіма діями)
+        </p>
+        <p className="main__info-paragraph">
+          Іконки в правому куті дозволяють вимкнути звуки та відображення таймеру у челледжі
+        </p>
+      </div>
     </div>
   )
 };
