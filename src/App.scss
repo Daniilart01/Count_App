@@ -1,4 +1,8 @@
+@import "./styles/mixins";
+
 $expression-size: 30px;
+$mobile-expression-size: 20px;
+$mobile-button-size: 130px;
 
 .main {
   background-color: #96bbff;
@@ -9,14 +13,18 @@ $expression-size: 30px;
   flex-direction: column;
   position: relative;
 
+  @include onTablet {
+    overflow: hidden;
+  }
+
   &__correctIcon {
     opacity: 0;
     position: absolute;
-    bottom: 200px;
+    top: 365px;
 
     &.shown {
       animation: check 500ms;
-    } 
+    }
   }
 
   @keyframes check {
@@ -26,12 +34,12 @@ $expression-size: 30px;
     }
 
     20% {
-      transform: translateY(0); 
+      transform: translateY(0);
       opacity: 1;
     }
 
     80% {
-      transform: translateY(0); 
+      transform: translateY(0);
       opacity: 1;
     }
 
@@ -46,6 +54,10 @@ $expression-size: 30px;
     top: 25vh;
     transition: all 0.3s;
 
+    @include onTablet {
+      top: 190px;
+    }
+
     &.hidden {
       opacity: 0;
       pointer-events: none;
@@ -59,6 +71,16 @@ $expression-size: 30px;
     padding-top: 5vh;
     justify-content: space-evenly;
     align-items: center;
+    transition: padding 0.3s;
+
+    @include onTablet {
+      flex-direction: column;
+      padding: 10px;
+
+      &.moved {
+        padding-top: 100px;
+      }
+    }
   }
 
   .box {
@@ -75,25 +97,47 @@ $expression-size: 30px;
     top: 130px;
     font-family: 'Roboto Mono', monospace;
     font-size: 40px;
+
+    @include onTablet {
+      top: 210px;
+      font-size: 30px;
+
+      & :not(.main__timer-score) {
+        font-size: 35px;
+      }
+    }
   }
 
-  &__task {
-    padding-block: 40px !important;
-    padding-inline: 50px !important;
-    border-radius: 40px !important;
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2) !important;
+  &__task.box {
+    padding-block: 40px;
+    padding-inline: 50px;
+    border-radius: 40px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
     min-width: 500px;
 
-    display: flex !important;
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
 
+    @include onTablet {
+      min-width: unset;
+      width: 90vw;
+      padding: 25px;
+      margin-bottom: 30px!important;
+    }
+  }
+
+  &__task {
     &__expression {
       font-family: 'Roboto Mono', monospace;
       font-size: $expression-size;
       font-weight: bold;
       white-space: nowrap;
+
+      @include onTablet {
+        font-size: $mobile-expression-size;
+      }
     }
 
     &__input {
@@ -108,6 +152,11 @@ $expression-size: 30px;
       padding: 10px;
       padding-bottom: 13px;
       text-align: center;
+
+      @include onTablet {
+        font-size: $mobile-expression-size;
+        width: $mobile-expression-size * 5;
+      }
 
       &--error {
         border: 1px solid red;
@@ -124,15 +173,44 @@ $expression-size: 30px;
     margin-right: 40px;
     gap: 10px;
 
+    @include onTablet {
+      align-self: center;
+      text-align: center;
+      margin-top: 100px;
+      margin-right: 0;
+    }
+
+    &-score {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      @include onTablet {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+      }
+    }
+
     &-paragraph {
       font-family: 'Roboto Mono', monospace;
       padding-left: 10px;
+
+      @include onTablet {
+        font-size: 12px;
+        padding-left: 0;
+      }
     }
   }
 
   &__controls {
     display: flex;
     gap: 10px;
+
+    @include onTablet {
+      gap: unset;
+      min-width: 90vw;
+      justify-content: space-between;
+    }
 
     &-button {
       font-family: 'Roboto Mono', monospace;
@@ -143,6 +221,10 @@ $expression-size: 30px;
       background-color: #1957c2;
       box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s, background-color 0.3s;
+
+      @include onTablet {
+        width: $mobile-button-size;
+      }
 
       &:hover {
         background-color: #3677e6;
@@ -156,20 +238,53 @@ $expression-size: 30px;
 
   &__icons {
     display: flex !important;
+    justify-content: space-evenly;
     gap: 20px;
+
+    @include onTablet {
+      width: $mobile-button-size;
+    }
   }
 
   &__operations,
   &__levels {
     display: flex !important;
     flex-direction: column;
-    align-items: center;
     text-align: center;
     gap: 10px;
-    min-width: 150px;
+    max-width: 140px;
+
+    @include onTablet {
+      padding-top: 5px!important;
+      padding-bottom: 10px!important;
+    }
+
+    &-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+
+      @include onTablet {
+        flex-direction: row;
+        gap: unset;
+        justify-content: space-evenly;
+      }
+    }
+
+    @include onTablet {
+      margin-top: 20px;
+      min-width: 90vw;
+      gap: 5px;
+    }
 
     &-label {
       font-family: 'Roboto Mono', monospace;
+
+      @include onTablet {
+        font-size: 14px;
+      }
     }
 
     &-button.button {
@@ -186,6 +301,12 @@ $expression-size: 30px;
     }
   }
 
+  &__levels {
+    @include onTablet {
+      order: 2;
+    }
+  }
+
   &__info {
     display: flex;
     flex-direction: column;
@@ -197,6 +318,10 @@ $expression-size: 30px;
       color: rgb(73, 73, 73);
       text-align: center;
     }
+
+    @include onTablet {
+      padding-bottom: 50px;
+    }
   }
 }
 
@@ -204,9 +329,17 @@ $expression-size: 30px;
   position: absolute;
   top: 20px;
 
+  @include onTablet {
+    top: 25px;
+  }
+
   &__title {
     font-family: 'Roboto Mono', monospace;
     font-size: 64px;
     font-weight: bold;
+
+    @include onTablet {
+      font-size: 36px;
+    }
   }
 }

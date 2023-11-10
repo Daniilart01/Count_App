@@ -248,8 +248,10 @@ export const App: React.FC = () => {
             </span>
           </div>
         </div>
-        <p className='main__topInfo-paragraph'>{`Усього вирішено: ${totalScore}`}</p>
-        <p className='main__topInfo-paragraph'>{`Challenge-рекорд: ${challengeRecord}`}</p>
+        <div className="main__topInfo-score">
+          <p className='main__topInfo-paragraph'>{`Усього вирішено: ${totalScore}`}</p>
+          <p className='main__topInfo-paragraph'>{`Challenge-рекорд: ${challengeRecord}`}</p>
+        </div>
       </div>
       <div
         ref={message}
@@ -265,9 +267,10 @@ export const App: React.FC = () => {
         <br />
         <strong>{(challengeScore.correctScore >= challengeRecord) && 'Це рекорд!'}</strong>
       </div>
-      <div className='main__container'>
+      <div className={cn('main__container', { 'moved': challengeTimer })}>
         <div className="main__levels box">
-          <p className='main__levels-label'>Рівень<br />складності</p>
+          <p className='main__levels-label'>Рівень складності</p>
+          <div className="main__levels-buttons">
           <button
             name='1'
             className={cn('main__operations-button', 'button', { 'is-info': level === 1 && challengeTimer === 0 })}
@@ -296,6 +299,7 @@ export const App: React.FC = () => {
           >
             4
           </button>
+          </div>
         </div>
 
         <div className="main__task box">
@@ -306,7 +310,7 @@ export const App: React.FC = () => {
             autoFocus
             ref={input}
             value={inputValue}
-            type="text"
+            type="number"
             className={cn('main__task__input', { 'main__task__input--error': isInputEmptyError })}
             onChange={onInputChange}
           />
@@ -321,7 +325,8 @@ export const App: React.FC = () => {
         ></i>
 
         <div className="main__operations box">
-          <p className='main__operations-label'>Активні<br />дії</p>
+          <p className='main__operations-label'>Активні дії</p>
+          <div className="main__operations-buttons">
           <button
             name='add'
             className={cn('main__operations-button', 'button', { 'is-info': operationsList.add || challengeTimer !== 0 })}
@@ -355,12 +360,13 @@ export const App: React.FC = () => {
           >
             :
           </button>
+          </div>
         </div>
       </div>
 
       <div className='main__info'>
         <p className="main__info-paragraph">
-          Натисни Enter щоб підтвердити відповідь
+          Натисни Enter(↵) щоб підтвердити відповідь
         </p>
         <p className="main__info-paragraph">
           Натисни 'Start Challange' щоб розпочати челлендж (працює на 3 рівні складності та із усіма діями)
