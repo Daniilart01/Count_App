@@ -273,7 +273,7 @@ export const App: React.FC = () => {
           <div className="main__levels-buttons">
           <button
             name='1'
-            className={cn('main__operations-button', 'button', { 'is-info': level === 1 && challengeTimer === 0 })}
+            className={cn('main__operations-button', 'button', { 'is-info': level === 1 || challengeTimer !== 0 })}
             onClick={levelsButtonClick}
           >
             1
@@ -287,7 +287,7 @@ export const App: React.FC = () => {
           </button>
           <button
             name='3'
-            className={cn('main__operations-button', 'button', { 'is-info': level === 3 || challengeTimer !== 0 })}
+            className={cn('main__operations-button', 'button', { 'is-info': level === 3 && challengeTimer === 0 })}
             onClick={levelsButtonClick}
           >
             3
