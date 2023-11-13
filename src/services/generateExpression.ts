@@ -5,7 +5,7 @@ export const generateExpression = (
     multiply: true,
     divide: true,
   }, 
-  level: Levels = 1
+  level: Levels = 3
 ): Expression => {
   let firstOperand = 0;
   let secondOperand = 0;
