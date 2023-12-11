@@ -1,11 +1,11 @@
 export const generateExpression = (
+  level: Levels,
   operations: OperationsActive = {
     add: true,
     subtract: true,
     multiply: true,
     divide: true,
   }, 
-  level: Levels = 2
 ): Expression => {
   let firstOperand = 0;
   let secondOperand = 0;
