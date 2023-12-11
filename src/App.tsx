@@ -28,7 +28,7 @@ export const App: React.FC = () => {
     multiply: true,
     divide: true,
   });
-  const [expression, setExpression] = useState<Expression>(generateExpression(operationsList, level));
+  const [expression, setExpression] = useState<Expression>(generateExpression(level, operationsList));
   const [animation, setAnimation] = useState(false);
 
   const input = useRef<HTMLInputElement>(null);
@@ -78,9 +78,9 @@ export const App: React.FC = () => {
         }
       }
       if (challengeTimer) {
-        setExpression(generateExpression());
+        setExpression(generateExpression(level));
       } else {
-        setExpression(generateExpression(operationsList, level));
+        setExpression(generateExpression(level, operationsList));
       }
       setInputValue('');
     }
@@ -118,11 +118,11 @@ export const App: React.FC = () => {
 
     if (!challengeTimer) {
       setExpression(generateExpression(
+        level,
         {
           ...operationsList,
           [key]: !operationsList[key],
         },
-        level,
       ));
     }
 
@@ -135,11 +135,15 @@ export const App: React.FC = () => {
   const levelsButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     input.current?.focus();
 
+    if (challengeTimer !== 0) {
+      return;
+    }
+
     try {
       const level: Levels = +event.currentTarget.name as Levels;
       
       if (!challengeTimer) {
-        setExpression(generateExpression(operationsList, level));
+        setExpression(generateExpression(level, operationsList));
       }
 
       setLevel(level);
@@ -171,14 +175,14 @@ export const App: React.FC = () => {
           challengeEndSound.play();
         }
         setChallengeTimer(0);
-        setExpression(generateExpression(operationsList, level));
+        setExpression(generateExpression(level, operationsList));
         message.current?.classList.remove('hidden');
       } else {
         if (volumeState) {
           challengeStartSound.play();
         }
         setChellangeScore({ correctScore: 0, incorrectScore: 0 })
-        setExpression(generateExpression());
+        setExpression(generateExpression(level));
         setChallengeTimer(sec);
 
         input.current?.focus();
@@ -273,28 +277,28 @@ export const App: React.FC = () => {
           <div className="main__levels-buttons">
           <button
             name='1'
-            className={cn('main__operations-button', 'button', { 'is-info': level === 1 && challengeTimer === 0 })}
+            className={cn('main__operations-button', 'button', { 'is-info': level === 1 })}
             onClick={levelsButtonClick}
           >
             1
           </button>
           <button
             name='2'
-            className={cn('main__operations-button', 'button', { 'is-info': level === 2 || challengeTimer !== 0 })}
+            className={cn('main__operations-button', 'button', { 'is-info': level === 2 })}
             onClick={levelsButtonClick}
           >
             2
           </button>
           <button
             name='3'
-            className={cn('main__operations-button', 'button', { 'is-info': level === 3 && challengeTimer === 0 })}
+            className={cn('main__operations-button', 'button', { 'is-info': level === 3 })}
             onClick={levelsButtonClick}
           >
             3
           </button>
           <button
             name='4'
-            className={cn('main__operations-button', 'button', { 'is-info': level === 4 && challengeTimer === 0 })}
+            className={cn('main__operations-button', 'button', { 'is-info': level === 4 })}
             onClick={levelsButtonClick}
           >
             4
@@ -369,10 +373,10 @@ export const App: React.FC = () => {
           Натисни Enter(↵) щоб підтвердити відповідь
         </p>
         <p className="main__info-paragraph">
-          Натисни 'Start Challange' щоб розпочати челлендж (працює на 2 рівні складності та із усіма діями)
+          Іконки в правому куті дозволяють вимкнути звуки та відображення таймеру у челледжі
         </p>
         <p className="main__info-paragraph">
-          Іконки в правому куті дозволяють вимкнути звуки та відображення таймеру у челледжі
+          Натисни 'Start Challange' щоб розпочати челлендж (відтепер працює на усіх рівнях складності та автоматично вмикає усі дії)
         </p>
       </div>
     </div>
