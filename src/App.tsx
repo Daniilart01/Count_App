@@ -140,13 +140,13 @@ export const App: React.FC = () => {
     }
 
     try {
-      const level: Levels = +event.currentTarget.name as Levels;
+      const newLevel: Levels = +event.currentTarget.name as Levels;
       
       if (!challengeTimer) {
-        setExpression(generateExpression(level, operationsList));
+        setExpression(generateExpression(newLevel, operationsList));
+        setLevel(newLevel);
       }
 
-      setLevel(level);
     } catch (e) {
       console.error('Wrong level');
     }
@@ -200,9 +200,9 @@ export const App: React.FC = () => {
         }, sec * 1000)
       }
     }
-  }, []);
+  }, [level, operationsList]);
 
-  const challengeButtonPressed = useCallback(challengeButtonPressHandler(300), []);
+  const challengeButtonPressed = useCallback(challengeButtonPressHandler(300), [challengeButtonPressHandler]);
 
   return (
     <div className='main'>
