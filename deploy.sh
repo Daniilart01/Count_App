@@ -13,8 +13,7 @@ git init
 git add -A
 git commit -m 'deploy'
 
-# если вы деплоите на https://<USERNAME>.github.io/<REPO>
-git push -f https://github.com/Daniilart01/count_app.git master:gh-pages
+git push -f https://github.com/Daniilart01/Count_App.git master:gh-pages
 
 cd -
 
